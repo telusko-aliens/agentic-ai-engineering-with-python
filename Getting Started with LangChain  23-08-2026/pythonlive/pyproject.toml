@@ -1,0 +1,23 @@
+[project]
+name = "pythonlive"
+version = "0.1.0"
+description = "Talking to LLM - class demo code"
+readme = "README.md"
+authors = [
+    { name = "Telusko" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "langchain>=1.3.16",
+    "langchain-openai>=1.6.0",
+    "openai>=3.3.1",
+    "python-dotenv>=1.2.3",
+    "requests>=2.34.2",
+]
+
+[project.scripts]
+pythonlive = "pythonlive:main"
+
+[build-system]
+requires = ["uv_build>=0.12.5,<0.13.0"]
+build-backend = "uv_build"

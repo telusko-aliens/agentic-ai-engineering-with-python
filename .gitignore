@@ -1,0 +1,36 @@
+# ── Secrets ──────────────────────────────────────────────
+# Never commit API keys. Use .env.example as the template.
+.env
+.env.*
+!.env.example
+
+# ── Python ───────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+wheels/
+
+# ── Virtual environments ─────────────────────────────────
+.venv
+venv/
+env/
+
+# ── Tooling / caches ─────────────────────────────────────
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# ── Local vector stores & generated files ────────────────
+chroma_db/
+faiss_index/
+*.sqlite3
+generated*.png
+
+# ── OS / editor ──────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
