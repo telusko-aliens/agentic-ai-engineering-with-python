@@ -262,6 +262,16 @@ agentic-ai-engineering-with-python/
 │       ├── uv.lock                 # Locked versions, same setup as class
 │       └── .env.example            # Copy to .env and add your own API key
 │
+├── 📁 Getting Started with LangChain Part-2 29-08-2026/
+│   ├── prompt-template.py          # ChatPromptTemplate with variables
+│   ├── output-parser.py            # StrOutputParser & JsonOutputParser
+│   ├── lcel_pipe.py                # LCEL: chaining with the pipe operator
+│   ├── telusko-image.py            # Multimodal input: image URL & local file
+│   ├── hf-demo.py                  # Hugging Face endpoint with ChatHuggingFace
+│   ├── ollama-demo.py              # Local open-source model with Ollama
+│   ├── sample.jpg                  # Test image for the multimodal demo
+│   └── .env.example                # OpenAI & Hugging Face keys go here
+│
 └── 📄 README.md
 ```
 
