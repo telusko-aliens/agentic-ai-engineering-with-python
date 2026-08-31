@@ -272,6 +272,16 @@ agentic-ai-engineering-with-python/
 │   ├── sample.jpg                  # Test image for the multimodal demo
 │   └── .env.example                # OpenAI & Hugging Face keys go here
 │
+├── 📁 LangChain Tools and Agents 30-08-2026/
+│   └── pythonlive/                 # Why tools are needed, and how to build them
+│       ├── why-tool.py             # Where a plain LLM fails: time & exact maths
+│       ├── first-tool.py           # The @tool decorator: name, description, args
+│       ├── llm-tool.py             # bind_tools and reading tool_calls
+│       ├── tool-in-val.py          # Input validation with a Pydantic args_schema
+│       ├── stream-demo.py          # Streaming from a model and from a chain
+│       ├── imagegen.py             # Chain writes the prompt, then generates an image
+│       └── .env.example            # OpenAI & Hugging Face keys go here
+│
 └── 📄 README.md
 ```
 
