@@ -282,6 +282,16 @@ agentic-ai-engineering-with-python/
 │       ├── imagegen.py             # Chain writes the prompt, then generates an image
 │       └── .env.example            # OpenAI & Hugging Face keys go here
 │
+├── 📁 Supervisor & Pure Agentic AI in LangChain4j (Part 2) - 05-09-2026/
+│   └── pythonlive/                 # From a manual tool loop to a real agent
+│       ├── tool_calling_loop.py    # The tool-calling loop written by hand
+│       ├── agent_too_loop.py       # Same loop handled by create_agent
+│       ├── moretool-agent.py       # Multi-tool agent over orders & stock data
+│       ├── agent-tool-memory.py    # Conversation memory with InMemorySaver & thread_id
+│       ├── stream-agent-work.py    # Streaming an agent's steps as it works
+│       ├── tool-agent-project.py   # Mini project: support agent with validated refunds
+│       └── .env.example            # OpenAI & Hugging Face keys go here
+│
 └── 📄 README.md
 ```
 
