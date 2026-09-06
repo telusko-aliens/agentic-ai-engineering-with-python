@@ -1,0 +1,24 @@
+[project]
+name = "middleware"
+version = "0.1.0"
+description = "Agent middleware in LangChain - class demo code"
+readme = "README.md"
+authors = [
+    { name = "Telusko" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "langchain>=1.4.0",
+    "langchain-openai>=1.6.0",
+    "langgraph>=1.2.11",
+    "pydantic>=2.13.5",
+    "python-dotenv>=1.2.3",
+    "requests>=2.34.2",
+]
+
+[project.scripts]
+middleware = "middleware:main"
+
+[build-system]
+requires = ["uv_build>=0.12.5,<0.13.0"]
+build-backend = "uv_build"
