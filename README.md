@@ -249,6 +249,8 @@ Every major module ends with a deployable project, framed as a real customer sce
 
 This repository holds **all the source code** taught session by session. Each folder is named by topic and session date, so you can follow along with the exact code from class.
 
+Each folder contains only **that session's own files**, so nothing is repeated across weeks. Every folder still ships its own `pyproject.toml`, `uv.lock` and `.env.example`, so you can `uv sync` and run any session on its own without touching the others.
+
 ```
 agentic-ai-engineering-with-python/
 │
@@ -282,9 +284,10 @@ agentic-ai-engineering-with-python/
 │       ├── imagegen.py             # Chain writes the prompt, then generates an image
 │       └── .env.example            # OpenAI & Hugging Face keys go here
 │
-├── 📁 Supervisor & Pure Agentic AI in LangChain4j (Part 2) - 05-09-2026/
+├── 📁 Tool Calling (Part-2) - 05-09-2026/
 │   └── pythonlive/                 # From a manual tool loop to a real agent
 │       ├── tool_calling_loop.py    # The tool-calling loop written by hand
+│       ├── llm-tool.py             # Reading tool_calls and running the tool yourself
 │       ├── agent_too_loop.py       # Same loop handled by create_agent
 │       ├── moretool-agent.py       # Multi-tool agent over orders & stock data
 │       ├── agent-tool-memory.py    # Conversation memory with InMemorySaver & thread_id
