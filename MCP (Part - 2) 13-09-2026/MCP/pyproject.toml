@@ -1,0 +1,15 @@
+[project]
+name = "mcp-13-sept"
+version = "0.1.0"
+description = "MCP server with FastMCP and a LangChain client - class demo code"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "fastmcp>=3.4.7,<4.0.0",
+    "langchain>=1.4.0",
+    "langchain-mcp-adapters>=0.3.1",
+    "langchain-openai>=1.6.2",
+    "mcp>=1.30.0",
+    "openai>=3.13.0",
+    "python-dotenv>=1.2.3",
+]

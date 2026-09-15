@@ -306,6 +306,12 @@ agentic-ai-engineering-with-python/
 │       ├── summary-mw.py           # SummarizationMiddleware to keep long chats in budget
 │       └── .env.example            # OpenAI key goes here
 │
+├── 📁 MCP (Part - 2) 13-09-2026/
+│   └── MCP/                        # Building an MCP server and calling it from LangChain
+│       ├── my_mcp_server.py        # FastMCP server exposing tools over stdio
+│       ├── my_mcp_client.py        # LangChain client that loads MCP tools and runs a tool call
+│       └── .env.example            # OpenAI key goes here (client only)
+│
 └── 📄 README.md
 ```
 
