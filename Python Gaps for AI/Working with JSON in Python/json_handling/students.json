@@ -1,0 +1,55 @@
+{
+  "students": [
+    {
+      "name": "Shramik",
+      "bio": "Hello 🙏, We are learning JSON in Python",
+      "experience": 10,
+      "is_member": true,
+      "balance": 200,
+      "skills": [
+        {
+          "subject": "Java",
+          "experience": 2
+        },
+        {
+          "subject": "Python",
+          "experience": 3
+        }
+      ]
+    },
+    {
+      "name": "Rahul",
+      "bio": "Passionate about Backend Development",
+      "experience": 5,
+      "is_member": false,
+      "balance": 150,
+      "skills": [
+        {
+          "subject": "Spring Boot",
+          "experience": 3
+        },
+        {
+          "subject": "Docker",
+          "experience": 2
+        }
+      ]
+    },
+    {
+      "name": "Priya",
+      "bio": "Learning AI and Machine Learning",
+      "experience": 4,
+      "is_member": true,
+      "balance": 350,
+      "skills": [
+        {
+          "subject": "Python",
+          "experience": 4
+        },
+        {
+          "subject": "TensorFlow",
+          "experience": 2
+        }
+      ]
+    }
+  ]
+}

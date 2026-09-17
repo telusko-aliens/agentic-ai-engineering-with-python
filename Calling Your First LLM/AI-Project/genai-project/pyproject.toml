@@ -1,0 +1,10 @@
+[project]
+name = "genai-project"
+version = "0.1.0"
+description = "Calling Gemini with the google-genai SDK - class demo code"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "google-genai>=2.16.0",
+    "python-dotenv>=1.2.2",
+]

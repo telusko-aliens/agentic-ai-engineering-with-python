@@ -312,6 +312,23 @@ agentic-ai-engineering-with-python/
 │       ├── my_mcp_client.py        # LangChain client that loads MCP tools and runs a tool call
 │       └── .env.example            # OpenAI key goes here (client only)
 │
+├── 📁 Python Gaps for AI/          # Recorded refresher: Python you need before agents
+│   ├── Working with JSON in Python/
+│   │   └── json_handling/          # json.loads/dumps, nested data, reading & writing files
+│   ├── Virtual Environments and Packages/
+│   │   └── webapp/                 # uv project setup: pyproject.toml, uv.lock & a pinned Python
+│   ├── Handling API Keys and Secrets/
+│   │   └── webapp/                 # Loading values from .env with python-dotenv
+│   └── Coroutines_ async and await/
+│       └── coroutine/              # async/await, create_task & running work concurrently
+│
+├── 📁 Calling Your First LLM/
+│   └── AI-Project/
+│       ├── openai-project/         # OpenAI Responses API: instructions, temperature, token limit
+│       ├── genai-project/          # Gemini with google-genai, plus reading token usage
+│       ├── anthropic-project/      # Claude with the Anthropic SDK and a system prompt
+│       └── youtube-script-generator/  # Mini project: OpenAI, Gemini & Claude in one pipeline
+│
 └── 📄 README.md
 ```
 

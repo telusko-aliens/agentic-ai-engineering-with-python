@@ -1,0 +1,10 @@
+[project]
+name = "anthropic-project"
+version = "0.1.0"
+description = "Calling Claude with the Anthropic SDK - class demo code"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "anthropic>=0.120.2",
+    "python-dotenv>=1.2.2",
+]
