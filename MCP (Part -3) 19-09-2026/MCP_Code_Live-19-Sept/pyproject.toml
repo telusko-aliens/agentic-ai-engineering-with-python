@@ -1,0 +1,14 @@
+[project]
+name = "mcp-code-live"
+version = "0.1.0"
+description = "MCP servers and clients: stdio, sessions, HTTP and notifications - class demo code"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "fastmcp<4",
+    "langchain-core>=1.6.3",
+    "langchain-mcp-adapters>=0.3.1",
+    "langchain-openai>=1.6.2",
+    "mcp<2",
+    "python-dotenv>=1.2.3",
+]
