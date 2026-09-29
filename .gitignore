@@ -34,3 +34,6 @@ generated*.png
 Thumbs.db
 .idea/
 .vscode/
+
+# Session backup archives (kept locally, never published)
+*.zip
