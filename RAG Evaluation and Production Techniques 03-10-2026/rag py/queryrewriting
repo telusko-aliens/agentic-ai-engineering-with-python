@@ -1,0 +1,236 @@
+import sys
+from pathlib import Path
+
+from dotenv import load_dotenv
+from langchain_chroma import Chroma
+from langchain_core.documents import Document
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from pydantic import BaseModel, Field
+
+load_dotenv()
+
+# Windows consoles use cp1252 by default, so a rupee sign or an emoji can crash
+# print. This line makes the output UTF-8.
+sys.stdout.reconfigure(encoding="utf-8")
+
+HERE = Path(__file__).parent
+
+documents = [
+    Document(page_content=path.read_text(encoding="utf-8"), metadata={"source": path.name})
+    for path in sorted((HERE / "data").glob("*.md"))
+]
+chunks = RecursiveCharacterTextSplitter(chunk_size=150, chunk_overlap=30).split_documents(documents)
+
+store = Chroma.from_documents(
+    chunks, OpenAIEmbeddings(model="text-embedding-3-small"), collection_name="rewriting"
+)
+retriever = store.as_retriever(search_kwargs={"k": 3})
+
+model = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+
+def preview(text, width=62):
+    return " ".join(text.split())[:width]
+
+def show(label, found):
+    print(f"   {label}")
+    for doc in found:
+        print(f"      [{doc.metadata['source']:18}] {preview(doc.page_content)}")
+
+rewrite = (
+    ChatPromptTemplate.from_messages([
+        ("system",
+         "Rewrite the user's last message as one standalone search query. "
+         "Use the conversation for context. Return the query only, no quotes, "
+         "no explanation."),
+        ("human", "Conversation so far:\n{history}\n\nLast message: {question}"),
+    ])
+    | model
+    | StrOutputParser()
+)
+# "and what if I spilled water on it"
+# "what about that one"
+# "is it covered"
+
+# these questions may make sesne in the conversation, but the vector store does not automatically understand the conversation
+
+history = """customer: My keyboard stopped working, I bought it two months ago.
+agent: Sorry to hear that. It is covered under warranty for manufacturing defects."""
+follow_up = "and what if I spilled water on it"
+
+standalone = rewrite.invoke({
+
+    "history": history,
+
+    "question": follow_up
+
+}).strip()
+
+print(
+    "Follow up question:",
+    follow_up
+)
+
+print(
+    "Rewritten as      :",
+    standalone
+)
+
+print()
+# Search with the raw vague question.
+show(
+    "retrieved with the raw question:",
+    retriever.invoke(follow_up)
+)
+
+
+# Then:
+#
+# Search with the rewritten standalone question.
+show(
+    "retrieved with the rewritten query:",
+    retriever.invoke(standalone)
+)
+
+
+# multi-query retrieval -->
+# my question may be complete but worded diff from the doc
+#example user: "money user" Doc: "refund"
+
+class Variations(BaseModel):
+    """
+    Structured output containing alternative phrasings.
+    """
+
+    # The LLM must return a list of three queries.
+    queries: list[str] = Field(
+        description="Three different phrasings of the question"
+    )
+
+variation_model = ChatOpenAI(model="gpt-4o-mini",temperature=0).with_structured_output(Variations)
+
+# def multi_query(question, k=3):
+#     """Search with several phrasings and merge, keeping the first sight of each chunk."""
+#     result = variation_model.invoke(
+#         "Write three different search queries for this question. Vary the wording "
+#         "and the vocabulary, keep the meaning.\n\nQuestion: " + question
+#     )
+#     all_queries = [question, *result.queries]
+
+#     merged = {}
+#     for query in all_queries:
+#         for doc in store.similarity_search(query, k=k):
+#             merged.setdefault(doc.page_content, doc)
+
+#     return all_queries, list(merged.values())
+
+# MULTI-QUERY FUNCTION
+# ===========================================================================
+
+def multi_query(question, k=3):
+    """
+    Search with several phrasings and merge,
+    keeping the first sight of each chunk.
+    """
+
+    # -----------------------------------------------------------------------
+    # STEP 1: GENERATE QUERY VARIATIONS
+    # -----------------------------------------------------------------------
+    #
+    # The LLM is asked for three alternate ways
+    # to search for the same meaning.
+    result = variation_model.invoke(
+
+        "Write three different search queries for this question. Vary the wording "
+        "and the vocabulary, keep the meaning.\n\nQuestion: " + question
+    )
+
+
+    # -----------------------------------------------------------------------
+    # STEP 2: INCLUDE THE ORIGINAL QUERY TOO
+    # -----------------------------------------------------------------------
+    #
+    # Important:
+    #
+    # We do NOT throw away the original user query.
+    #
+   # We search with:
+    #
+    # original query
+    # +
+    # 3 generated queries
+    #
+    # Total = 4 queries.
+    all_queries = [
+        question,
+        *result.queries
+    ]
+
+
+    # -----------------------------------------------------------------------
+    # STEP 3: MERGE RESULTS
+    # -----------------------------------------------------------------------
+    #
+    # Different queries may retrieve the same chunk.
+    #
+    # Example:
+    #
+    # query 1 -> refunds chunk A
+    # query 2 -> refunds chunk A
+    # query 3 -> refunds chunk B
+    #
+    #
+    # We don't want duplicate copies of chunk A.
+    #
+    # So we use a dictionary.
+    merged = {}
+
+
+    # Search once for every query variation.
+    for query in all_queries:
+
+
+        # Perform direct vector similarity search.
+        #
+        # Each query returns top k chunks.
+        for doc in store.similarity_search(
+            query,
+            k=k
+        ):
+
+
+            # Use page_content as the key.
+            #
+            # If this exact chunk was already seen,
+            # keep the existing copy.
+            #
+            # setdefault means:
+            #
+            # "only insert this key if it doesn't already exist."
+            merged.setdefault(
+                doc.page_content,
+                doc
+            )
+
+
+    # Return:
+    #
+    # 1. all queries used
+    # 2. unique retrieved chunks
+    return (
+        all_queries,
+        list(merged.values())
+    )
+
+question = "money back"
+queries, merged = multi_query(question)
+
+print("Vague question:", question)
+print("Searched with:")
+for query in queries:
+    print("   -", query)
+print()
+show(f"one query returned {len(retriever.invoke(question))} chunks:", retriever.invoke(question))
+show(f"four queries merged into {len(merged)} chunks:", merged)
