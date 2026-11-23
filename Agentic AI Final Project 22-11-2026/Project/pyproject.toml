@@ -1,0 +1,20 @@
+[project]
+name = "meal-planner"
+version = "0.1.0"
+description = "Meal planner: the final multi-agent project with RAG, MCP, memory and a web UI"
+requires-python = ">=3.14"
+dependencies = [
+    "fastapi>=0.165.0",
+    "fastmcp>=3.4,<4",
+    "langchain>=1.5.2",
+    "langchain-community>=0.4.2",
+    "langchain-mcp-adapters>=0.3.1",
+    "langchain-openai>=1.8.5",
+    "langchain-postgres>=0.0.19",
+    "langgraph>=1.2.24",
+    "langgraph-checkpoint-postgres>=3.2.1",
+    "mcp>=1.30.0,<2.0.0",
+    "psycopg[binary,pool]>=3.3.9",
+    "python-dotenv>=1.2.4",
+    "uvicorn>=0.54.0",
+]

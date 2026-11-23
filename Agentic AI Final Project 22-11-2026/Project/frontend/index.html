@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meal Planner</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>🍳 Meal Planner Kitchen Team</h1>
+    <div class="session">
+      <label>
+        User
+        <input id="user-input" type="text" value="riya">
+      </label>
+      <button id="switch-user-btn">Switch user</button>
+      <select id="conversation-select" class="conversation-select" title="Previous conversations"></select>
+      <button id="new-conversation-btn">New conversation</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- left: the chat -->
+    <section class="chat">
+      <div id="messages" class="messages"></div>
+
+      <form id="chat-form" class="chat-form">
+        <input id="message-input" type="text" placeholder="Ask the Head Chef... e.g. I am vegetarian, suggest a breakfast" autocomplete="off">
+        <button id="send-btn" type="submit">Send</button>
+      </form>
+    </section>
+
+    <!-- right: what is saved in Postgres for this user -->
+    <aside class="memory">
+      <h2>Long-term memory</h2>
+      <p class="hint">saved in the Postgres store for this user</p>
+
+      <h3>Preferences</h3>
+      <ul id="preferences-list"></ul>
+
+      <h3>Grocery list</h3>
+      <ul id="grocery-list"></ul>
+
+      <button id="refresh-btn" class="secondary">Refresh</button>
+    </aside>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

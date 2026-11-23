@@ -1,0 +1,198 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #f6f3ee;
+  color: #2b2b2b;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- header ---------- */
+
+header {
+  background: #2f6b4f;
+  color: white;
+  padding: 12px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.session {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.session input {
+  margin-left: 6px;
+  width: 110px;
+}
+
+.conversation-select {
+  max-width: 260px;
+  padding: 7px 10px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #2b2b2b;
+  cursor: pointer;
+}
+
+/* ---------- layout ---------- */
+
+main {
+  flex: 1;
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  min-height: 0;
+}
+
+.chat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-radius: 10px;
+  min-height: 0;
+}
+
+.memory {
+  width: 280px;
+  background: white;
+  border-radius: 10px;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+/* ---------- messages ---------- */
+
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.message {
+  max-width: 75%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  line-height: 1.45;
+  white-space: pre-wrap; /* keep the line breaks from the agent's reply */
+}
+
+.message.human {
+  align-self: flex-end;
+  background: #2f6b4f;
+  color: white;
+}
+
+.message.ai {
+  align-self: flex-start;
+  background: #eef1ec;
+}
+
+.message.thinking {
+  color: #888;
+  font-style: italic;
+}
+
+/* ---------- input form ---------- */
+
+.chat-form {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  border-top: 1px solid #eee;
+}
+
+.chat-form input {
+  flex: 1;
+}
+
+input {
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  background: #e8a33d;
+  color: #2b2b2b;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+
+button.secondary {
+  background: #eee;
+}
+
+/* ---------- memory panel ---------- */
+
+.memory h2 {
+  margin: 0;
+  font-size: 17px;
+}
+
+.memory h3 {
+  margin: 18px 0 6px;
+  font-size: 14px;
+  color: #2f6b4f;
+}
+
+.hint {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: #888;
+}
+
+.memory ul {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 14px;
+}
+
+.memory li.empty {
+  list-style: none;
+  margin-left: -18px;
+  color: #999;
+}
+
+/* ---------- small screens: memory panel goes under the chat ---------- */
+
+@media (max-width: 700px) {
+  main {
+    flex-direction: column;
+  }
+
+  .memory {
+    width: 100%;
+  }
+}

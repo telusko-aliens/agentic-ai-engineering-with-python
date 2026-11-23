@@ -1,0 +1,68 @@
+Stream mode: updates
+Program: 7_agent_streaming.py (also 9_agent_streaming_with_memory.py)
+
+What you get: Only what a node changed
+When a chunk arrives: Each time a node finishes
+Chunk format: {node_name: update}
+Best for: Progress display, seeing the agent's path
+Note: with subgraphs=True the chunk becomes (namespace, {node_name: update})
+────────────────────────────────────────
+Stream mode: messages
+Program: 7_agent_streaming.py (also 9_agent_streaming_with_memory.py)
+
+What you get: LLM output token by token
+When a chunk arrives: Each time the LLM writes a token
+Chunk format: (token, metadata)
+Best for: Chat UIs, the typing effect
+Note: metadata['langgraph_node'] tells which node wrote the token
+────────────────────────────────────────
+Stream mode: custom
+Program: 8_agent_streamming2.py
+
+What you get: Your own message
+When a chunk arrives: Each time you call writer(...) (writer = get_stream_writer())
+Chunk format: whatever you send to writer(...)
+Best for: Friendly progress, like "step 1/2..."
+────────────────────────────────────────
+Stream mode: Multiple: ['updates', 'custom']
+Program: 8_agent_streamming2.py
+
+What you get: Several modes in one stream
+When a chunk arrives: Whenever any of the chosen modes sends a chunk
+Chunk format: (mode, chunk)  -> with subgraphs=True: (namespace, mode, chunk)
+Best for: Getting progress and node updates (or tokens) together in one loop
+────────────────────────────────────────
+Stream mode: values
+Program: 10_stream_values.py
+
+What you get: The FULL state after every step, not just what changed
+When a chunk arrives: After each step (once at the start, then after every node)
+Chunk format: the whole state, e.g. {'messages': [...]}
+Best for: Always having the complete, latest state (messages list keeps growing)
+────────────────────────────────────────
+Stream mode: debug
+Program: 11_stream_debug.py
+
+What you get: Everything that happens, step by step
+When a chunk arrives: When a node starts, when it finishes, and when state is saved
+Chunk format: {'type': ..., 'step': ..., 'payload': ...}
+              type = 'task' (node about to run) | 'task_result' (node finished)
+                     | 'checkpoint' (state saved, only with a checkpointer)
+Best for: Debugging, seeing exactly what the graph did
+────────────────────────────────────────
+Stream mode: checkpoints
+Program: 12_stream_checkpoint.py
+
+What you get: The saved state every time a checkpoint is written
+When a chunk arrives: Each time the state is saved (needs a checkpointer + thread_id)
+Chunk format: {'values': saved_state, 'next': (nodes that run next), ...}
+Best for: Understanding memory / persistence, seeing what gets saved and what runs next
+────────────────────────────────────────
+Stream mode: tasks
+Program: 13_stream_tasks.py
+
+What you get: Start and finish events for each node (task)
+When a chunk arrives: Two chunks per node - when it starts and when it finishes
+Chunk format: start  -> {'id', 'name', 'input', 'triggers'}
+              finish -> {'id', 'name', 'result', 'error', 'interrupts'}
+Best for: Tracking which node is running and when it is done

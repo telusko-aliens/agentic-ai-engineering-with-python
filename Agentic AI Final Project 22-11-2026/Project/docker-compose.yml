@@ -1,0 +1,29 @@
+# one Postgres container stores EVERYTHING for the meal planner:
+#   - short-term memory  (chat history per thread)    -> AsyncPostgresSaver tables
+#   - long-term memory   (preferences, grocery lists)  -> AsyncPostgresStore tables
+#   - RAG                (recipe embeddings)           -> pgvector tables
+#
+# start:  docker compose up -d
+# stop:   docker compose down        (data stays in the volume)
+# reset:  docker compose down -v     (deletes all data)
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg17   # Postgres 17 with the pgvector extension installed
+    container_name: meal_planner_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: meal_planner
+    ports:
+      - "5433:5432"   # host port 5433 (5432 is often taken by a local Postgres)
+    volumes:
+      - meal_planner_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d meal_planner"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  meal_planner_data:
